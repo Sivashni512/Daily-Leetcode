@@ -1,92 +1,105 @@
-// Definition for a binary tree node
+# Binary Search in Java
 
-class TreeNode {
+## Problem Statement
 
-&#x20;   int val;
+Given a sorted array of integers `nums` and an integer `target`, return the index of `target` if it exists in the array. Otherwise, return `-1`.
 
-&#x20;   TreeNode left;
+This solution uses the **Binary Search** algorithm, which efficiently searches a sorted array by repeatedly dividing the search interval in half.
 
-&#x20;   TreeNode right;
+---
 
+## Algorithm
 
+1. Initialize two pointers:
+   - `left = 0`
+   - `right = nums.length - 1`
+2. Repeat while `left <= right`:
+   - Find the middle index.
+   - If the middle element equals the target, return its index.
+   - If the target is greater than the middle element, search the right half.
+   - Otherwise, search the left half.
+3. If the target is not found, return `-1`.
 
-&#x20;   TreeNode() {}
+---
 
-&#x20;   TreeNode(int val) { this.val = val; }
+## Java Code
 
-&#x20;   TreeNode(int val, TreeNode left, TreeNode right) {
-
-&#x20;       this.val = val;
-
-&#x20;       this.left = left;
-
-&#x20;       this.right = right;
-
-&#x20;   }
-
-}
-
-
-
+```java
 class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
 
-&#x20;   public int maxDepth(TreeNode root) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
 
-&#x20;       if (root == null) {
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
 
-&#x20;           return 0;
-
-&#x20;       }
-
-&#x20;       
-
-&#x20;       int leftDepth = maxDepth(root.left);
-
-&#x20;       int rightDepth = maxDepth(root.right);
-
-&#x20;       
-
-&#x20;       return 1 + Math.max(leftDepth, rightDepth);
-
-&#x20;   }
-
+        return -1;
+    }
 }
+```
 
+---
 
+## Example
 
-// Driver code to test
+### Input
 
-public class Main {
+```text
+nums = [-1,0,3,5,9,12]
+target = 9
+```
 
-&#x20;   public static void main(String\[] args) {
+### Output
 
-&#x20;       // Build sample tree:
+```text
+4
+```
 
-&#x20;       //       3
+### Explanation
 
-&#x20;       //      / \\
+The target value `9` is found at index `4`.
 
-&#x20;       //     9  20
+---
 
-&#x20;       //        / \\
+## Time Complexity
 
-&#x20;       //       15  7
+- **Best Case:** O(1)
+- **Average Case:** O(log n)
+- **Worst Case:** O(log n)
 
-&#x20;       TreeNode root = new TreeNode(3);
+---
 
-&#x20;       root.left = new TreeNode(9);
+## Space Complexity
 
-&#x20;       root.right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
+- **O(1)** (Constant extra space)
 
+---
 
+## Features
 
-&#x20;       Solution sol = new Solution();
+- Efficient search using Binary Search.
+- Constant space usage.
+- Handles large sorted arrays efficiently.
+- Returns `-1` when the target element is not present.
 
-&#x20;       System.out.println("Maximum Depth: " + sol.maxDepth(root)); // Output: 3
+---
 
-&#x20;   }
+## Requirements
 
-}
+- Java 8 or later
+- Input array must be sorted in ascending order.
 
+---
 
+## Author
 
+**Sivashni S**
