@@ -1,105 +1,332 @@
-# Binary Search in Java
+\# Construct Binary Tree from Preorder and Inorder Traversal
 
-## Problem Statement
 
-Given a sorted array of integers `nums` and an integer `target`, return the index of `target` if it exists in the array. Otherwise, return `-1`.
 
-This solution uses the **Binary Search** algorithm, which efficiently searches a sorted array by repeatedly dividing the search interval in half.
+\## Problem Statement
 
----
+Given two integer arrays:
 
-## Algorithm
 
-1. Initialize two pointers:
-   - `left = 0`
-   - `right = nums.length - 1`
-2. Repeat while `left <= right`:
-   - Find the middle index.
-   - If the middle element equals the target, return its index.
-   - If the target is greater than the middle element, search the right half.
-   - Otherwise, search the left half.
-3. If the target is not found, return `-1`.
 
----
+\- `preorder` – preorder traversal of a binary tree.
 
-## Java Code
+\- `inorder` – inorder traversal of the same binary tree.
+
+
+
+Construct and return the binary tree.
+
+
+
+\---
+
+
+
+\## Approach
+
+
+
+The solution uses \*\*Recursion\*\* along with a \*\*HashMap\*\* for efficient lookup.
+
+
+
+\### Algorithm
+
+
+
+1\. Store each value of the inorder traversal along with its index in a `HashMap`.
+
+2\. Maintain a global variable `index` to track the current root in the preorder array.
+
+3\. The first element in preorder is always the root.
+
+4\. Find the root's position in the inorder array using the HashMap.
+
+5\. Recursively build:
+
+&#x20;  - Left subtree using the left portion of inorder.
+
+&#x20;  - Right subtree using the right portion of inorder.
+
+6\. Continue until the subtree boundaries become invalid.
+
+
+
+\---
+
+
+
+\## Code
+
+
 
 ```java
+
 class Solution {
-    public int search(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+&#x20;   int index = 0;
 
-            if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
 
-        return -1;
-    }
+
+&#x20;   public TreeNode buildTree(int\[] preorder, int\[] inorder) {
+
+&#x20;       HashMap<Integer, Integer> map = new HashMap<>();
+
+
+
+&#x20;       for (int i = 0; i < inorder.length; i++) {
+
+&#x20;           map.put(inorder\[i], i);
+
+&#x20;       }
+
+
+
+&#x20;       return helper(preorder, 0, inorder.length - 1, map);
+
+&#x20;   }
+
+
+
+&#x20;   private TreeNode helper(int\[] preorder, int start, int end, HashMap<Integer, Integer> map) {
+
+&#x20;       if (start > end)
+
+&#x20;           return null;
+
+
+
+&#x20;       int rootVal = preorder\[index++];
+
+&#x20;       TreeNode node = new TreeNode(rootVal);
+
+
+
+&#x20;       int inorderIndex = map.get(rootVal);
+
+
+
+&#x20;       node.left = helper(preorder, start, inorderIndex - 1, map);
+
+&#x20;       node.right = helper(preorder, inorderIndex + 1, end, map);
+
+
+
+&#x20;       return node;
+
+&#x20;   }
+
 }
+
 ```
 
----
 
-## Example
 
-### Input
+\---
+
+
+
+\## Dry Run
+
+
+
+\### Input
+
+
 
 ```text
-nums = [-1,0,3,5,9,12]
-target = 9
+
+preorder = \[3,9,20,15,7]
+
+inorder  = \[9,3,15,20,7]
+
 ```
 
-### Output
 
-```text
-4
+
+\### Construction
+
+
+
 ```
 
-### Explanation
+Root = 3
 
-The target value `9` is found at index `4`.
 
----
 
-## Time Complexity
+Left Subtree:
 
-- **Best Case:** O(1)
-- **Average Case:** O(log n)
-- **Worst Case:** O(log n)
+9
 
----
 
-## Space Complexity
 
-- **O(1)** (Constant extra space)
+Right Subtree:
 
----
+20
 
-## Features
+├──15
 
-- Efficient search using Binary Search.
-- Constant space usage.
-- Handles large sorted arrays efficiently.
-- Returns `-1` when the target element is not present.
+└──7
 
----
+```
 
-## Requirements
 
-- Java 8 or later
-- Input array must be sorted in ascending order.
 
----
+\### Output
 
-## Author
 
-**Sivashni S**
+
+```
+
+&#x20;       3
+
+&#x20;      / \\
+
+&#x20;     9   20
+
+&#x20;        /  \\
+
+&#x20;       15   7
+
+```
+
+
+
+\---
+
+
+
+\## Time Complexity
+
+
+
+\- Building HashMap: \*\*O(n)\*\*
+
+\- Constructing Tree: \*\*O(n)\*\*
+
+
+
+\*\*Overall Time Complexity:\*\* \*\*O(n)\*\*
+
+
+
+\---
+
+
+
+\## Space Complexity
+
+
+
+\- HashMap: \*\*O(n)\*\*
+
+\- Recursive Call Stack: \*\*O(n)\*\* (worst case)
+
+
+
+\*\*Overall Space Complexity:\*\* \*\*O(n)\*\*
+
+
+
+\---
+
+
+
+\## Key Concepts
+
+
+
+\- Binary Tree
+
+\- Preorder Traversal
+
+\- Inorder Traversal
+
+\- Recursion
+
+\- Divide and Conquer
+
+\- HashMap
+
+
+
+\---
+
+
+
+\## Explanation
+
+
+
+\- \*\*Preorder Traversal\*\* always gives the root first.
+
+\- \*\*Inorder Traversal\*\* divides the tree into left and right subtrees.
+
+\- The HashMap allows locating the root in constant time.
+
+\- Recursion builds the left subtree first, then the right subtree, following preorder traversal.
+
+
+
+\---
+
+
+
+\## Example
+
+
+
+\*\*Input\*\*
+
+
+
+```
+
+preorder = \[1,2,4,5,3]
+
+inorder  = \[4,2,5,1,3]
+
+```
+
+
+
+\*\*Output\*\*
+
+
+
+```
+
+&#x20;       1
+
+&#x20;      / \\
+
+&#x20;     2   3
+
+&#x20;    / \\
+
+&#x20;   4   5
+
+```
+
+
+
+\---
+
+
+
+\## Topics
+
+
+
+\- Trees
+
+\- Binary Tree
+
+\- Recursion
+
+\- HashMap
+
+\- Divide and Conquer
+
+\- LeetCode 105
+
