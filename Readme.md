@@ -1,20 +1,48 @@
-\# Construct Binary Tree from Preorder and Inorder Traversal
+\# Concatenation of Array
 
 
 
 \## Problem Statement
 
-Given two integer arrays:
+Given an integer array `nums` of length `n`, create a new array `ans` of length `2n` where:
 
 
 
-\- `preorder` – preorder traversal of a binary tree.
+\- `ans\[i] = nums\[i]`
 
-\- `inorder` – inorder traversal of the same binary tree.
+\- `ans\[i + n] = nums\[i]`
 
 
 
-Construct and return the binary tree.
+for `0 <= i < n`.
+
+
+
+Return the concatenated array.
+
+
+
+\### Example
+
+
+
+\*\*Input:\*\*
+
+```
+
+nums = \[1,2,1]
+
+```
+
+
+
+\*\*Output:\*\*
+
+```
+
+\[1,2,1,1,2,1]
+
+```
 
 
 
@@ -26,29 +54,43 @@ Construct and return the binary tree.
 
 
 
-The solution uses \*\*Recursion\*\* along with a \*\*HashMap\*\* for efficient lookup.
+1\. Find the length of the input array.
+
+2\. Create a new array of size `2 × length`.
+
+3\. Traverse the original array once.
+
+4\. Copy each element:
+
+&#x20;  - First into the same index.
+
+&#x20;  - Again into the index `i + length`.
+
+5\. Return the new array.
 
 
 
-\### Algorithm
+\---
 
 
 
-1\. Store each value of the inorder traversal along with its index in a `HashMap`.
+\## Algorithm
 
-2\. Maintain a global variable `index` to track the current root in the preorder array.
 
-3\. The first element in preorder is always the root.
 
-4\. Find the root's position in the inorder array using the HashMap.
+1\. Store the length of `nums`.
 
-5\. Recursively build:
+2\. Create an integer array `ans` of size `2 \* length`.
 
-&#x20;  - Left subtree using the left portion of inorder.
+3\. Loop through the original array.
 
-&#x20;  - Right subtree using the right portion of inorder.
+4\. Assign:
 
-6\. Continue until the subtree boundaries become invalid.
+&#x20;  - `ans\[i] = nums\[i]`
+
+&#x20;  - `ans\[i + length] = nums\[i]`
+
+5\. Return `ans`.
 
 
 
@@ -64,55 +106,25 @@ The solution uses \*\*Recursion\*\* along with a \*\*HashMap\*\* for efficient l
 
 class Solution {
 
-&#x20;   int index = 0;
+&#x20;   public int\[] getConcatenation(int\[] nums) {
+
+&#x20;       int len = nums.length;
+
+&#x20;       int\[] ans = new int\[2 \* len];
 
 
 
-&#x20;   public TreeNode buildTree(int\[] preorder, int\[] inorder) {
+&#x20;       for (int i = 0; i < len; i++) {
 
-&#x20;       HashMap<Integer, Integer> map = new HashMap<>();
+&#x20;           ans\[i] = nums\[i];
 
-
-
-&#x20;       for (int i = 0; i < inorder.length; i++) {
-
-&#x20;           map.put(inorder\[i], i);
+&#x20;           ans\[i + len] = nums\[i];
 
 &#x20;       }
 
 
 
-&#x20;       return helper(preorder, 0, inorder.length - 1, map);
-
-&#x20;   }
-
-
-
-&#x20;   private TreeNode helper(int\[] preorder, int start, int end, HashMap<Integer, Integer> map) {
-
-&#x20;       if (start > end)
-
-&#x20;           return null;
-
-
-
-&#x20;       int rootVal = preorder\[index++];
-
-&#x20;       TreeNode node = new TreeNode(rootVal);
-
-
-
-&#x20;       int inorderIndex = map.get(rootVal);
-
-
-
-&#x20;       node.left = helper(preorder, start, inorderIndex - 1, map);
-
-&#x20;       node.right = helper(preorder, inorderIndex + 1, end, map);
-
-
-
-&#x20;       return node;
+&#x20;       return ans;
 
 &#x20;   }
 
@@ -126,87 +138,15 @@ class Solution {
 
 
 
-\## Dry Run
-
-
-
-\### Input
-
-
-
-```text
-
-preorder = \[3,9,20,15,7]
-
-inorder  = \[9,3,15,20,7]
-
-```
-
-
-
-\### Construction
-
-
-
-```
-
-Root = 3
-
-
-
-Left Subtree:
-
-9
-
-
-
-Right Subtree:
-
-20
-
-├──15
-
-└──7
-
-```
-
-
-
-\### Output
-
-
-
-```
-
-&#x20;       3
-
-&#x20;      / \\
-
-&#x20;     9   20
-
-&#x20;        /  \\
-
-&#x20;       15   7
-
-```
-
-
-
-\---
-
-
-
 \## Time Complexity
 
 
 
-\- Building HashMap: \*\*O(n)\*\*
-
-\- Constructing Tree: \*\*O(n)\*\*
+\- \*\*O(n)\*\*
 
 
 
-\*\*Overall Time Complexity:\*\* \*\*O(n)\*\*
+The array is traversed only once.
 
 
 
@@ -218,13 +158,11 @@ Right Subtree:
 
 
 
-\- HashMap: \*\*O(n)\*\*
-
-\- Recursive Call Stack: \*\*O(n)\*\* (worst case)
+\- \*\*O(n)\*\*
 
 
 
-\*\*Overall Space Complexity:\*\* \*\*O(n)\*\*
+A new array of size `2n` is created.
 
 
 
@@ -236,17 +174,11 @@ Right Subtree:
 
 
 
-\- Binary Tree
+\- Arrays
 
-\- Preorder Traversal
+\- Iteration
 
-\- Inorder Traversal
-
-\- Recursion
-
-\- Divide and Conquer
-
-\- HashMap
+\- Index Manipulation
 
 
 
@@ -254,79 +186,13 @@ Right Subtree:
 
 
 
-\## Explanation
+\## LeetCode
 
 
 
-\- \*\*Preorder Traversal\*\* always gives the root first.
-
-\- \*\*Inorder Traversal\*\* divides the tree into left and right subtrees.
-
-\- The HashMap allows locating the root in constant time.
-
-\- Recursion builds the left subtree first, then the right subtree, following preorder traversal.
+\*\*Problem:\*\* 1929 - Concatenation of Array
 
 
 
-\---
-
-
-
-\## Example
-
-
-
-\*\*Input\*\*
-
-
-
-```
-
-preorder = \[1,2,4,5,3]
-
-inorder  = \[4,2,5,1,3]
-
-```
-
-
-
-\*\*Output\*\*
-
-
-
-```
-
-&#x20;       1
-
-&#x20;      / \\
-
-&#x20;     2   3
-
-&#x20;    / \\
-
-&#x20;   4   5
-
-```
-
-
-
-\---
-
-
-
-\## Topics
-
-
-
-\- Trees
-
-\- Binary Tree
-
-\- Recursion
-
-\- HashMap
-
-\- Divide and Conquer
-
-\- LeetCode 105
+\*\*Difficulty:\*\* Easy
 
