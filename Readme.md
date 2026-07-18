@@ -1,48 +1,20 @@
-\# Concatenation of Array
+\# Merge Sorted Array
 
 
 
 \## Problem Statement
 
-Given an integer array `nums` of length `n`, create a new array `ans` of length `2n` where:
+You are given two sorted integer arrays `nums1` and `nums2`, along with integers `m` and `n`.
 
 
 
-\- `ans\[i] = nums\[i]`
+\- `nums1` has a size of `m + n`, where the first `m` elements contain valid values and the remaining `n` elements are set to `0`.
 
-\- `ans\[i + n] = nums\[i]`
-
-
-
-for `0 <= i < n`.
+\- `nums2` contains `n` sorted elements.
 
 
 
-Return the concatenated array.
-
-
-
-\### Example
-
-
-
-\*\*Input:\*\*
-
-```
-
-nums = \[1,2,1]
-
-```
-
-
-
-\*\*Output:\*\*
-
-```
-
-\[1,2,1,1,2,1]
-
-```
+Merge `nums2` into `nums1` so that `nums1` becomes a single sorted array.
 
 
 
@@ -52,21 +24,13 @@ nums = \[1,2,1]
 
 \## Approach
 
+1\. Start inserting the elements of `nums2` into `nums1` from index `m`.
 
+2\. Copy all elements of `nums2` into the remaining positions of `nums1`.
 
-1\. Find the length of the input array.
+3\. Sort the entire `nums1` array using `Arrays.sort()`.
 
-2\. Create a new array of size `2 × length`.
-
-3\. Traverse the original array once.
-
-4\. Copy each element:
-
-&#x20;  - First into the same index.
-
-&#x20;  - Again into the index `i + length`.
-
-5\. Return the new array.
+4\. The final sorted array is stored in `nums1`.
 
 
 
@@ -76,21 +40,17 @@ nums = \[1,2,1]
 
 \## Algorithm
 
+1\. Initialize `i = m`.
 
+2\. Traverse `nums2` using index `j`.
 
-1\. Store the length of `nums`.
+3\. Copy each element of `nums2` into `nums1\[i]`.
 
-2\. Create an integer array `ans` of size `2 \* length`.
+4\. Increment both `i` and `j`.
 
-3\. Loop through the original array.
+5\. After copying all elements, sort `nums1` using `Arrays.sort()`.
 
-4\. Assign:
-
-&#x20;  - `ans\[i] = nums\[i]`
-
-&#x20;  - `ans\[i + length] = nums\[i]`
-
-5\. Return `ans`.
+6\. The merged sorted array is obtained in `nums1`.
 
 
 
@@ -106,25 +66,17 @@ nums = \[1,2,1]
 
 class Solution {
 
-&#x20;   public int\[] getConcatenation(int\[] nums) {
+&#x20;   public void merge(int\[] nums1, int m, int\[] nums2, int n) {
 
-&#x20;       int len = nums.length;
+&#x20;       for (int j = 0, i = m; j < n; j++) {
 
-&#x20;       int\[] ans = new int\[2 \* len];
+&#x20;           nums1\[i] = nums2\[j];
 
-
-
-&#x20;       for (int i = 0; i < len; i++) {
-
-&#x20;           ans\[i] = nums\[i];
-
-&#x20;           ans\[i + len] = nums\[i];
+&#x20;           i++;
 
 &#x20;       }
 
-
-
-&#x20;       return ans;
+&#x20;       Arrays.sort(nums1);
 
 &#x20;   }
 
@@ -138,15 +90,59 @@ class Solution {
 
 
 
-\## Time Complexity
+\## Example
 
 
 
-\- \*\*O(n)\*\*
+\### Input
+
+```text
+
+nums1 = \[1,2,3,0,0,0]
+
+m = 3
+
+nums2 = \[2,5,6]
+
+n = 3
+
+```
 
 
 
-The array is traversed only once.
+\### Output
+
+```text
+
+\[1,2,2,3,5,6]
+
+```
+
+
+
+\### Explanation
+
+After copying the elements of `nums2` into `nums1`, the array becomes:
+
+
+
+```text
+
+\[1,2,3,2,5,6]
+
+```
+
+
+
+After sorting:
+
+
+
+```text
+
+\[1,2,2,3,5,6]
+
+```
 
 
 
@@ -154,31 +150,13 @@ The array is traversed only once.
 
 
 
-\## Space Complexity
+\## Complexity Analysis
 
 
 
-\- \*\*O(n)\*\*
+\- \*\*Time Complexity:\*\* `O((m + n) log(m + n))`
 
-
-
-A new array of size `2n` is created.
-
-
-
-\---
-
-
-
-\## Key Concepts
-
-
-
-\- Arrays
-
-\- Iteration
-
-\- Index Manipulation
+\- \*\*Space Complexity:\*\* `O(1)`
 
 
 
@@ -186,13 +164,13 @@ A new array of size `2n` is created.
 
 
 
-\## LeetCode
+\## Key Features
 
+\- Simple and easy to implement.
 
+\- Uses Java's built-in `Arrays.sort()` method.
 
-\*\*Problem:\*\* 1929 - Concatenation of Array
+\- Produces the correct merged sorted array.
 
-
-
-\*\*Difficulty:\*\* Easy
+\- Suitable for beginners learning array manipulation.
 
