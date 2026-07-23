@@ -1,38 +1,210 @@
-# Find Duplicate Elements in an Array using HashSet
+\# 🎨 Sort Colors
 
-## 📌 Problem Statement
-Write a Java program to find duplicate elements in an integer array using a **HashSet**.
 
----
 
-## 🧩 Algorithm
-1. Create a **HashSet** to store unique elements.  
-2. Create another **HashSet** to store duplicate elements.  
-3. Traverse the array one element at a time.  
-4. If an element is already present in the first HashSet, add it to the duplicate set.  
-5. Otherwise, add it to the first HashSet.  
-6. Display all duplicate elements.
+\## 📌 Problem Statement
 
----
+Given an array `nums` containing only `0`, `1`, and `2`, sort the array in-place so that objects of the same color are adjacent, with the colors in the order \*\*0 (Red), 1 (White), and 2 (Blue)\*\*.
 
-## 💻 Java Program
+
+
+You must solve the problem \*\*without using the library's sort function\*\*.
+
+
+
+\### Example
+
+\*\*Input:\*\*
+
+```text
+
+nums = \[2,0,2,1,1,0]
+
+```
+
+
+
+\*\*Output:\*\*
+
+```text
+
+\[0,0,1,1,2,2]
+
+```
+
+
+
+\---
+
+
+
+\## 💡 Approach
+
+This solution uses the \*\*Dutch National Flag Algorithm\*\*, which sorts the array in a single traversal.
+
+
+
+Three pointers are maintained:
+
+
+
+\- \*\*low\*\* → Position where the next `0` should be placed.
+
+\- \*\*mid\*\* → Current element being checked.
+
+\- \*\*high\*\* → Position where the next `2` should be placed.
+
+
+
+\### Steps:
+
+1\. Initialize `low = 0`, `mid = 0`, and `high = n - 1`.
+
+2\. Traverse the array while `mid <= high`.
+
+3\. If the current element is:
+
+&#x20;  - \*\*0\*\* → Swap with `low`, then increment both `low` and `mid`.
+
+&#x20;  - \*\*1\*\* → Leave it in place and increment `mid`.
+
+&#x20;  - \*\*2\*\* → Swap with `high` and decrement `high` (do not increment `mid` because the swapped element needs to be checked).
+
+4\. Continue until all elements are sorted.
+
+
+
+\---
+
+
+
+\## ✅ Algorithm
+
+1\. Set three pointers: `low`, `mid`, and `high`.
+
+2\. While `mid <= high`:
+
+&#x20;  - If `nums\[mid] == 0`
+
+&#x20;    - Swap `nums\[low]` and `nums\[mid]`
+
+&#x20;    - Increment `low` and `mid`
+
+&#x20;  - Else if `nums\[mid] == 1`
+
+&#x20;    - Increment `mid`
+
+&#x20;  - Else (`nums\[mid] == 2`)
+
+&#x20;    - Swap `nums\[mid]` and `nums\[high]`
+
+&#x20;    - Decrement `high`
+
+3\. Return the sorted array.
+
+
+
+\---
+
+
+
+\## ⏱️ Complexity Analysis
+
+
+
+\- \*\*Time Complexity:\*\* `O(n)`
+
+&#x20; - The array is traversed only once.
+
+
+
+\- \*\*Space Complexity:\*\* `O(1)`
+
+&#x20; - Sorting is done in-place without using extra space.
+
+
+
+\---
+
+
+
+\## 🚀 Key Concepts
+
+\- Dutch National Flag Algorithm
+
+\- Two/Three Pointer Technique
+
+\- In-place Sorting
+
+\- Array Manipulation
+
+
+
+\---
+
+
+
+\## ✅ Java Solution
+
+
+
 ```java
-import java.util.HashSet;
 
-public class FindDuplicates {
-    public static void main(String[] args) {
+class Solution {
 
-        int[] arr = {2, 5, 3, 2, 8, 5, 9, 1, 3};
+&#x20;   public void sortColors(int\[] nums) {
 
-        HashSet<Integer> unique = new HashSet<>();
-        HashSet<Integer> duplicates = new HashSet<>();
+&#x20;       int n = nums.length;
 
-        for (int num : arr) {
-            if (!unique.add(num)) {
-                duplicates.add(num);
-            }
-        }
+&#x20;       int low = 0, mid = 0, high = n - 1;
 
-        System.out.println("Duplicate Elements: " + duplicates);
-    }
+
+
+&#x20;       while (mid <= high) {
+
+&#x20;           if (nums\[mid] == 0) {
+
+&#x20;               int t = nums\[low];
+
+&#x20;               nums\[low] = nums\[mid];
+
+&#x20;               nums\[mid] = t;
+
+&#x20;               low++;
+
+&#x20;               mid++;
+
+&#x20;           } else if (nums\[mid] == 1) {
+
+&#x20;               mid++;
+
+&#x20;           } else {
+
+&#x20;               int t = nums\[high];
+
+&#x20;               nums\[high] = nums\[mid];
+
+&#x20;               nums\[mid] = t;
+
+&#x20;               high--;
+
+&#x20;           }
+
+&#x20;       }
+
+&#x20;   }
+
 }
+
+```
+
+
+
+\---
+
+
+
+\## 🎯 Result
+
+The array is sorted \*\*in-place\*\* in a single pass using the \*\*Dutch National Flag Algorithm\*\*, achieving \*\*O(n)\*\* time complexity and \*\*O(1)\*\* extra space.
+
